@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Emp Task{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vue.js' %}"></script>
+</head>
+
+<body>
+    {% include 'top_nav.html' %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+
+</html>

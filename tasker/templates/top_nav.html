@@ -1,0 +1,28 @@
+<ul class="nav nav-right navbar-dark bg-dark">
+    <!-- <li class="nav-item col-md-2">
+        <a class="nav-link active" href="#">Active</a>
+    </li> -->
+    <!-- <li class="nav-item navbar-left">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+    </li> -->
+    <li class="offset-md-6">
+        {{ request.path }}
+    </li>
+
+    {% if user.is_authenticated %}
+        <li class="nav-item navbar-left col-md-2">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{ user.username }}</a>
+        </li>
+        <li class="nav-item pull-right col-md-2">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+    {% else %}
+        <li class="nav-item pull-right col-md-2">
+            <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
+        </li>
+        <li class="nav-item pull-right col-md-2">
+            <a class="nav-link" href="{% url 'login' %}">Log In</a>
+        </li>
+    {% endif %}
+</ul>
+
