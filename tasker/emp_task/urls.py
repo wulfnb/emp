@@ -7,6 +7,6 @@ from .schema import schema
 
 urlpatterns = [
     path('', employee_view, name='emp_dashboard'),
-    path('add_task/', add_task, name='add_task'),
+    path('add_task', add_task, name='add_task'),
     path("graphql", GraphQLView.as_view(graphiql=True, schema=schema)),
 ]

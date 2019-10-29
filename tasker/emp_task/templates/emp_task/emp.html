@@ -8,15 +8,17 @@
     <br>
     <div class="row">
         <div class="col-md-2 offset-md-2">
-            <button @click="add_task = true" class="btn btn-disabled">
+            <button @click="add_task = true" class="btn btn-primary" :disabled="add_task">
                 Add Task
             </button>
-            <button @click="add_task = false" class="btn btn-disabled">
+            <button @click="add_task = false" class="btn btn-info" :disabled="add_task === false">
                 List Task
             </button>
         </div>
     </div>
-
+    <br>
+    <br>
+    <br>
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <table class="table table-bordered" v-if="(task_list !== '') && add_task === false">
@@ -30,15 +32,39 @@
                     <th>
                         Task status
                     </th>
+                    <th>
+                    </th>
                 </tr>
                 <tr v-for="(task, num) in task_list">
                     <td><% num+1 %></td>
-                    <td>
+                    <td v-if="task.edit === false">
                         <% task.task %>
                     </td>
-                <td>
-                    <% task.status %>
-                </td>
+                    <td v-if="task.edit">
+                        <input v-model="task.task" type="text">
+                    </td>
+                    <td v-if="task.edit === false">
+                        <% task.status %>
+                    </td>
+                    <td v-if="task.edit">
+                        <select @change="onChange($event,num)">
+                            <option v-for="option in options">
+                                <% option %>
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <button @click="task.edit = true" v-if="task.edit === false">
+                            edit
+                        </button>
+                        <button @click="task.edit = false" v-if="task.edit">
+                            Cancel
+                        </button>
+                        <button @click="editChanges(num)" v-if="task.edit">
+                            Save
+                        </button>
+
+                    </td>
                 
                 </tr>
             </table>

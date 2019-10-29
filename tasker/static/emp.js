@@ -10,12 +10,16 @@ const app = new Vue({
         name : 'Test',
         task_list: '',
         // csrf_token1: '',
+        edit_task: false,
         add_task: false,
         data_to_save : {
             task_name: ''
         },
+        options: [
+            'ADDED','INPROGRESS','COMPLETED'
+        ],
         get_query : `query{
-            allUser: employee(id:1){
+            allUser{
               id
               username
               taskSet{
@@ -47,7 +51,15 @@ const app = new Vue({
             }).then(response => {
                 return response.json()
             }).then(json => {
-                this.task_list = json.data.allUser.taskSet
+                this.task_list = []
+                for (const item in json.data.allUser.taskSet){
+                    this.task_list.push({
+                        id: json.data.allUser.taskSet[item].id,
+                        task: json.data.allUser.taskSet[item].task,
+                        status: json.data.allUser.taskSet[item].status,
+                        edit: false
+                    })
+                }
             })
         
         },
@@ -77,11 +89,32 @@ const app = new Vue({
                 },
                 body: JSON.stringify({ name: this.data_to_save.task_name }),
             }).then(response => {
-                return response.json()
-            }).then(json => {
                 this.getAllTasks()
                 this.add_task = false
             })
+        },
+        editChanges(id){
+            this.task_list[id].edit = false;
+            fetch('/emp/add_task', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ 
+                    id: this.task_list[id].id,
+                    name: this.task_list[id].task,
+                    status: this.task_list[id].status
+                }),
+            }).then(response => {
+                this.getAllTasks()
+                this.add_task = false
+            })
+            
+        },
+        onChange(event,id){
+            this.task_list[id].status = event.target.value
+            // alert(event.target.value)
         }
     }
 })
