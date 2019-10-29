@@ -4,18 +4,66 @@
 
 {% block content %}
 <div id="employee">
-    <table class="table table-bordered" v-if="task_list != null">
-        <tr>
-            hi
-        </tr>
-        <td v-for="i in task_list">
-            new
-        </td>
-    </table>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-2 offset-md-2">
+            <button @click="add_task = true" class="btn btn-disabled">
+                Add Task
+            </button>
+            <button @click="add_task = false" class="btn btn-disabled">
+                List Task
+            </button>
+        </div>
+    </div>
 
-    <button @click="getAllTasks()">
-        button
-    </button>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <table class="table table-bordered" v-if="(task_list !== '') && add_task === false">
+                <tr>
+                    <th>
+                        Sl.no
+                    </th>
+                    <th>
+                        Task
+                    </th>
+                    <th>
+                        Task status
+                    </th>
+                </tr>
+                <tr v-for="(task, num) in task_list">
+                    <td><% num+1 %></td>
+                    <td>
+                        <% task.task %>
+                    </td>
+                <td>
+                    <% task.status %>
+                </td>
+                
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success" @click="csvfiledownload()">
+                Download CSV Report
+            </button>
+        </div>
+    </div>
+
+    <div class="row" v-if="add_task">
+        <div class="col-md-8 offset-md-2">
+            <input type="text" v-model="data_to_save.task_name" class="form-group"/>
+            <br>
+            <br>
+            <button class="btn btn-primary" @click="saveTask">
+                Add task
+            </button>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
 </div>
 {% load static %}
 <script src="{% static 'emp.js' %}"></script>

@@ -8,8 +8,12 @@ const app = new Vue({
 
     data: {
         name : 'Test',
-        task_list: null,
-        csrf_token1: '',
+        task_list: '',
+        // csrf_token1: '',
+        add_task: false,
+        data_to_save : {
+            task_name: ''
+        },
         get_query : `query{
             allUser: employee(id:1){
               id
@@ -27,12 +31,11 @@ const app = new Vue({
         
     },
     mounted() {
-        // this.csrf_token = Cookies.get('csrftoken');
+        this.getAllTasks()
     },
     methods: {
 
         getAllTasks() {
-            // csrftoken = Cookies.get('csrftoken');
 
             fetch('/emp/graphql', {
                 method: 'POST',
@@ -40,7 +43,6 @@ const app = new Vue({
                 headers: {
                     "Content-Type": "application/json"
                 },
-                // headers : {X_CSRFTOKEN: csrftoken},
                 body: JSON.stringify({ query: this.get_query }),
             }).then(response => {
                 return response.json()
@@ -49,5 +51,37 @@ const app = new Vue({
             })
         
         },
+        csvfiledownload() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += [
+                Object.keys(this.task_list[0]).join(","),
+                ...this.task_list.map(item => Object.values(item).join(","))
+            ]
+                .join("\n")
+                .replace(/(^\[)|(\]$)/gm, "");
+
+            const data = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", data);
+            link.setAttribute("download", "export.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+        saveTask(){
+            fetch('/emp/add_task', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name: this.data_to_save.task_name }),
+            }).then(response => {
+                return response.json()
+            }).then(json => {
+                this.getAllTasks()
+                this.add_task = false
+            })
+        }
     }
 })
