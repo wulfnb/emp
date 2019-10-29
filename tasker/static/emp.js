@@ -19,7 +19,7 @@ const app = new Vue({
             'ADDED','INPROGRESS','COMPLETED'
         ],
         get_query : `query{
-            allUser{
+            allUser: employee(id:1){
               id
               username
               taskSet{
