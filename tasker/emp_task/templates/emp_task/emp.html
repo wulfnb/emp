@@ -3,11 +3,20 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-Hi
-<br>
-    This is emp dashboard
-<br>
+<div id="employee">
+    <table class="table table-bordered" v-if="task_list != null">
+        <tr>
+            hi
+        </tr>
+        <td v-for="i in task_list">
+            new
+        </td>
+    </table>
 
-    Add the task and change tasks here
-<br>
+    <button @click="getAllTasks()">
+        button
+    </button>
+</div>
+{% load static %}
+<script src="{% static 'emp.js' %}"></script>
 {% endblock %}
