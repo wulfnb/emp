@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'emp_task',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/emp/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Internationalization
@@ -131,3 +132,8 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(os.path.dirname(
     BASE_DIR), "static")
+
+
+GRAPHENE = {
+    'SCHEMA': 'emp_task.schema.schema'
+}

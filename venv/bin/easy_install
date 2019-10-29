@@ -1,5 +1,4 @@
-#!/home/wolf/Desktop/projects/emp/venv/bin/python3.8
-
+#!/home/wolverine/Documents/emp/venv/bin/python3.8
 # -*- coding: utf-8 -*-
 import re
 import sys

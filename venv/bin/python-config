@@ -1,4 +1,4 @@
-#!/home/wolf/Desktop/projects/emp/venv/bin/python
+#!/home/wolverine/Documents/emp/venv/bin/python
 
 import sys
 import getopt
